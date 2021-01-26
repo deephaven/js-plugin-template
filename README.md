@@ -2,6 +2,14 @@
 
 Use this Template to create a Javascript Plugin
 
+## Initial Setup
+
+After checking out this template for the first time:
+
+1. Do an `npm install`
+
+2. Do `mkdir src`
+
 ## Source Files 
 
 1. Copy your main source file to `src/index.js`.
