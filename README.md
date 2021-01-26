@@ -1,62 +1,16 @@
-# Deephaven Javascript Plugins
+# Deephaven Javascript Plugin Template
 
-Javascript plugins allow a user to write arbitrary Javascript code and attach it to a Table.
+Use this Template to create a Javascript Plugin
 
-## Creating a Plugin
+## Source Files 
 
-1.  Start with default `Remote Component` setup from here: <br>
-    https://github.com/Paciolan/remote-component#creating-remote-components
+1. Copy your main source file to `src/index.js`.
 
-2.  Install Web Pack <br>
-    https://webpack.js.org/guides/getting-started/ <br>
+Note the the `src` directory may need to be created
 
-    ```
-    npm install webpack webpack-cli --save-dev
-    ```
+2. Copy any included source files into `src` maintaing their directory structure.
 
-3.  Install Babel <br>
-    https://www.valentinog.com/blog/babel/ <br>
-
-    ```
-    npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
-    ```
-
-4.  Create `.babelrc` <br>
-
-    ```
-    {
-    "presets": ["@babel/preset-env", "@babel/preset-react"]
-    }
-    ```
-
-5.  Update `webpack.config.js` to look like this:
-
-    ```
-    module.exports = {
-      output: {
-        libraryTarget: "commonjs"
-      },
-      externals: {
-        react: "react",
-        reactstrap: "reactstrap",
-      },
-      module: {
-        rules: [
-          {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: {
-              loader: "babel-loader"
-            }
-          }
-        ]
-      }
-    };
-    ```
-
-6.  Place your Javascript code in `index.js`
-
-7.  Run Web Pack
+## Build the Plugin
 
 ```
 /npx webpack --config webpack.config.js
@@ -64,60 +18,7 @@ Javascript plugins allow a user to write arbitrary Javascript code and attach it
 
 Your output will be in `dist/main.js`
 
-## Javascript Code for a Plugin
-
-1.  Your plugin must be a React Component.
-
-2.  The `table`, `user`, `client`, `panel`, `onFilter` method, and an `onFetchColumns` method are passed in as props.
-
-```
-const { table, onFilter, onFetchColumns } = this.props;
-onFilter([
-  {
-    name: 'column name',
-    type: 'column type',
-    value: 'value to filter on',
-  },
-]),
-// These columns will always be in the viewport
-onFetchColumns(['A', 'B'])
-```
-
-3.  You may have an optional `getMenu(data)` method that will return an array of menu objects.
-
-```
-getMenu(data) {
-  const { value } = data;
-  const actions = [];
-
-  actions.push({
-    title: 'Display value',
-    group: 0,
-    order: 0,
-    action: () => alert(value),
-  });
-
-  return actions
-}
-```
-
-The `data` object contains the following:
-
-```
-{
-  table,
-  model,
-  value,
-  valueText,
-  column,
-  rowIndex,
-  columnIndex,
-  modelRow,
-  modelColumn,
-}
-```
-
-## Uploading a Plugin
+## Uploading the Plugin
 
 1.  Create a directory on the Server to place the plugins.
 
@@ -138,3 +39,7 @@ The name will ExamplePlugin
 t=db.t("LearnDeephaven", "StockTrades").where("Date=`2017-08-21`")
 t.setAttribute("PluginName", "ExamplePlugin")
 ```
+
+## Setting an Application Level Plugin
+
+In the config set `Webapi.app.plugins` to your plugin name. This can be a comma separated list to support multiple plugins.
