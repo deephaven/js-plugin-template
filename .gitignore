@@ -1,8 +1,5 @@
 # Ignore npm dependencies
 /node_modules
 
-# Ignore webpack input file
-/src/index.js
-
 # Ignore webpack output directory
 /dist

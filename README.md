@@ -8,15 +8,14 @@ After checking out this template for the first time:
 
 1. Do an `npm install`
 
-2. Do `mkdir src`
-
 ## Source Files 
 
-1. Copy your main source file to `src/index.js`.
+1. Your main source file is `src/index.js`
 
-Note the the `src` directory may need to be created
+It is defaulted to ExamplePlugin.jsx from the examples directory which is a Table Plugin. You may want to overwrite with ExampleAppPlugin.jsx
+if you are writing an App Plugin.
 
-2. Copy any included source files into `src` maintaing their directory structure.
+2. Copy any included source files into `src` maintaing their directory structure (none are needed for the examples).
 
 ## Build the Plugin
 
