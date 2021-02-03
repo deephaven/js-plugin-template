@@ -15,7 +15,7 @@ After checking out this template for the first time:
 It is defaulted to ExamplePlugin.jsx from the examples directory which is a Table Plugin. You may want to overwrite with ExampleAppPlugin.jsx
 if you are writing an App Plugin.
 
-2. Copy any included source files into `src` maintaing their directory structure (none are needed for the examples).
+2. Copy any included source files into `src` maintaining their directory structure (none are needed for the examples).
 
 ## Build the Plugin
 
