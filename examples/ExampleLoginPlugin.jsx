@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Component } from 'react';
+import { Component } from "react";
 
 class ExampleLoginPlugin extends Component {
   constructor(props) {
@@ -8,20 +8,18 @@ class ExampleLoginPlugin extends Component {
 
   componentDidMount() {
     const { onPermissionOverrides } = this.props;
-    if (onPermissionOverrides) {
-      const permissionOverrides = {
-        canUsePanels: true,
-        canCreateDashboard: true,
-        canCreateCodeStudio: true,
-        canCreateQueryMonitor: true,
-        canCopy: true,
-        canDownloadCsv: true,
-      };
-      onPermissionOverrides((username, operateAs, groups) => {
-        console.log('[ExampleLoginPlugin]', username, operateAs, groups);
-        return permissionOverrides;
-      });
-    }
+    const permissionOverrides = {
+      canUsePanels: true,
+      canCreateDashboard: true,
+      canCreateCodeStudio: true,
+      canCreateQueryMonitor: true,
+      canCopy: true,
+      canDownloadCsv: true,
+    };
+    onPermissionOverrides((username, operateAs, groups) => {
+      console.log("[ExampleLoginPlugin]", username, operateAs, groups);
+      return permissionOverrides;
+    });
   }
 
   render() {

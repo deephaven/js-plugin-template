@@ -53,13 +53,13 @@ In the config set `Webapi.app.plugins` to your plugin name. This can be a comma 
 
 ## Login Plugin
 
-A Login Plugin loads before the user log into the Web Client, and it allows UI permissions to be set. See `ExampleLoginPlugin.jsx` for an example.
+A Login Plugin loads before the user logs in to the Web Client, and it allows UI permissions to be set. See `ExampleLoginPlugin.jsx` for an example.
 The current supported permissions are:
 
 - canUsePanels - Allows the user access to the `Panels` button in the UI.
 - canCreateDashboard - Allows the user to create a new Dashboard.
 - canCreateCodeStudio - Allows the user to create a new Code Studio.
-- canCreateQueryMonitor - Allows the user to open the Query Monitor.
+- canCreateQueryMonitor - Allows the user to create a new Query Monitor.
 - canCopy - Allows the user to copy cells and rows from a table.
 - canDownloadCsv - Allows the user to download a table to CSV.
 
