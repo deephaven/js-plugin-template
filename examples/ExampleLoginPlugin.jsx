@@ -8,17 +8,16 @@ class ExampleLoginPlugin extends Component {
 
   componentDidMount() {
     const { onPermissionOverrides } = this.props;
-    const permissionOverrides = {
-      canUsePanels: true,
-      canCreateDashboard: true,
-      canCreateCodeStudio: true,
-      canCreateQueryMonitor: true,
-      canCopy: true,
-      canDownloadCsv: true,
-    };
     onPermissionOverrides((username, operateAs, groups) => {
       console.log("[ExampleLoginPlugin]", username, operateAs, groups);
-      return permissionOverrides;
+      return {
+        canUsePanels: true,
+        canCreateDashboard: true,
+        canCreateCodeStudio: true,
+        canCreateQueryMonitor: true,
+        canCopy: true,
+        canDownloadCsv: true,
+      };
     });
   }
 
