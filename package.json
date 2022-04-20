@@ -9,6 +9,9 @@
     "webpack": "^5.51.1",
     "webpack-cli": "^3.3.12"
   },
+  "scripts": {
+    "build": "webpack"
+  },
   "peerDependencies": {
     "react": "^17.x"
   }

@@ -1,10 +1,11 @@
 module.exports = {
+  mode: "production",
   output: {
-    libraryTarget: "commonjs"
+    libraryTarget: "commonjs",
   },
   externals: {
     react: "react",
-	reactstrap: "reactstrap",
+    reactstrap: "reactstrap",
   },
   module: {
     rules: [
@@ -12,9 +13,9 @@ module.exports = {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
-      }
-    ]
-  }
+          loader: "babel-loader",
+        },
+      },
+    ],
+  },
 };
