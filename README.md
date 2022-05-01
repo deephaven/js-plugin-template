@@ -20,7 +20,7 @@ if you are writing an App Plugin.
 ## Build the Plugin
 
 ```
-/npx webpack --config webpack.config.js
+npm run build
 ```
 
 Your output will be in `dist/main.js`
