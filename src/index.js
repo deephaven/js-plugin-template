@@ -88,6 +88,7 @@ class ExamplePlugin extends Component {
 
   handleOpenModal(title, IrisGrid, IrisGridTableModel) {
     const { table } = this.props;
+    console.log(title, IrisGrid);
     table.copy().then((copy) => {
       const model = new IrisGridTableModel(copy);
       const proxy = new Proxy(model, new ProxyHandler());
