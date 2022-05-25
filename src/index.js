@@ -5,6 +5,7 @@ import {
   IrisGrid as IrisGridOpen,
   IrisGridTableModel as IrisGridTableModelOpen,
 } from "@deephaven/iris-grid";
+import { ContextMenuRoot } from "@deephaven/components";
 
 class ExamplePlugin extends Component {
   constructor(props) {
@@ -146,11 +147,14 @@ const TableModal = (props) => {
     >
       <ModalHeader>{title}</ModalHeader>
       <ModalBody>
-        {model &&
-          React.createElement(IrisGrid, {
-            model,
-            settings,
-          })}
+        <div style={{ maxHeight: 400, height: 400 }}>
+          {model &&
+            React.createElement(IrisGrid, {
+              model,
+              settings,
+            })}
+        </div>
+        {React.createElement(ContextMenuRoot)}
       </ModalBody>
       <ModalFooter>
         <button
