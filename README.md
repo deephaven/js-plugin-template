@@ -28,10 +28,35 @@ Your output will be in `dist/main.js`
 ## Uploading the Plugin
 
 1.  Create a directory on the Server to place the plugins.
+    ```
+    sudo -u irisadmin mkdir /etc/sysconfig/deephaven/plugins/javascript-plugins
+    ```
 
 2.  Set the config value for `Webapi.plugins` to point to the plugins directory.
 
+    - Export props:
+
+        ```
+        sudo -u dbquery /usr/illumon/latest/bin/etcd_prop_file --export iris-environment.prop /tmp
+        ```
+    
+    - Edit `/tmp/iris-environment.prop` and add the following line:
+
+        ```
+        Webapi.plugins=/etc/sysconfig/deephaven/plugins/javascript-plugins
+        ```
+    
+    - Import the updated props:
+        ```
+        sudo -u irisadmin /usr/illumon/latest/bin/etcd_prop_file --import /tmp/iris-environment.prop
+        ```
+
 3.  Copy the output file `main.js` to that directory on the server and rename it (e.g. `ExamplePlugin.js`).
+    ```
+    scp ./main.js username@host:/tmp
+    ssh username@host
+    sudo -u irisadmin cp /tmp/main.js /etc/sysconfig/deephaven/plugins/javascript-plugins/ExamplePlugin.js
+    ```
 
 4.  The file name is used as the name of the plugin. <br>
     e.g. `ExamplePlugin.js` will be named `ExamplePlugin`
@@ -73,7 +98,7 @@ As with other plugin types, you must have a plugin directory configured and copy
 
 Then in the config set `Webapi.login.plugins` to your plugin name. This can be a comma separated list to support multiple login plugins.
 
-Finally, you muste add this to the Auth Config, e.g.
+Finally, you must add this to the Auth Config, e.g.
 
 ```
 authentication.client.configuration.list=Webapi.login.plugins
