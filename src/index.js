@@ -1,6 +1,10 @@
 /* eslint-disable */
-import React, { Component } from 'react';
-import { Modal, ModalBody, ModalFooter, ModalHeader } from 'reactstrap';
+import React, { Component, useRef } from "react";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import {
+  IrisGrid as IrisGridOpen,
+  IrisGridTableModel as IrisGridTableModelOpen,
+} from "@deephaven/iris-grid";
 
 class ExamplePlugin extends Component {
   constructor(props) {
@@ -14,6 +18,9 @@ class ExamplePlugin extends Component {
 
     this.state = {
       isModalOpen: false,
+      title: null,
+      model: null,
+      IrisGrid: null,
     };
   }
 
@@ -23,120 +30,153 @@ class ExamplePlugin extends Component {
    * @param {object} data data from deephaven
    */
   getMenu(data) {
-    const { onFilter, table } = this.props;
-    const { value, column, model } = data;
-    const { name, type } = column;
+    const { components } = this.props;
+    const { IrisGrid, IrisGridTableModel } = components;
     const actions = [];
 
     actions.push({
-      title: 'Display value',
-      group: 0,
-      order: 0,
-      action: () => alert(value),
-    });
-
-    actions.push({
-      title: 'Show Dialog',
-      group: 0,
-      order: 10,
-      action: this.handleOpenModal,
-    });
-
-    actions.push({
-      title: 'Display Table',
-      group: 0,
-      order: 20,
-      action: () => alert(table),
-    });
-
-    actions.push({
-      title: 'Display Model',
-      group: 0,
-      order: 30,
-      action: () => alert(model),
-    });
-
-    const subMenu = [];
-
-    actions.push({
-      title: 'Filter Sub Menu',
-      group: 0,
-      order: 40,
-      actions: subMenu,
-    });
-
-    subMenu.push({
-      title: 'Filter by value',
+      title: "Prop Model and Prop Grid",
       group: 0,
       order: 0,
       action: () =>
-        onFilter([
-          {
-            name,
-            type,
-            value,
-          },
-        ]),
+        this.handleOpenModal(
+          "Prop Model and Prop Grid",
+          IrisGrid,
+          IrisGridTableModel
+        ),
     });
 
-    subMenu.push({
-      title: 'Clear Filter',
+    actions.push({
+      title: "Prop Model and Open Grid",
       group: 0,
       order: 10,
-      action: () => onFilter([]),
+      action: () =>
+        this.handleOpenModal(
+          "Prop Model and Open Grid",
+          IrisGridOpen,
+          IrisGridTableModel
+        ),
+    });
+
+    actions.push({
+      title: "Open Model and Prop Grid",
+      group: 0,
+      order: 20,
+      action: () =>
+        this.handleOpenModal(
+          "Open Model and Prop Grid",
+          IrisGrid,
+          IrisGridTableModelOpen
+        ),
+    });
+
+    actions.push({
+      title: "Open Model and Open Grid",
+      group: 0,
+      order: 30,
+      action: () =>
+        this.handleOpenModal(
+          "Open Model and Open Grid",
+          IrisGridOpen,
+          IrisGridTableModelOpen
+        ),
     });
 
     return actions;
   }
 
-  handleOpenModal() {
-    this.setState({
-      isModalOpen: true,
+  handleOpenModal(title, IrisGrid, IrisGridTableModel) {
+    const { table } = this.props;
+    table.copy().then((copy) => {
+      const model = new IrisGridTableModel(copy);
+      const proxy = new Proxy(model, new ProxyHandler());
+      this.setState({
+        isModalOpen: true,
+        title,
+        model: proxy,
+        IrisGrid,
+      });
     });
   }
 
   handleCloseModal() {
+    const { model } = this.state;
+    if (model) {
+      model.close();
+    }
     this.setState({
       isModalOpen: false,
+      title: null,
+      model: null,
+      IrisGrid: null,
     });
   }
 
   render() {
-    const { isModalOpen } = this.state;
+    const { panel } = this.props;
+    const { settings } = panel.props;
+    const { isModalOpen, title, model, IrisGrid } = this.state;
 
     return (
       <div>
         <label>Example Plugin</label>
-        <Modal
+        <TableModal
           isOpen={isModalOpen}
-          className="theme-bg-light"
-          onOpened={() => {
-            this.confirmButton.current.focus();
-          }}
-        >
-          <ModalHeader>Plugin Modal Title</ModalHeader>
-          <ModalBody>Plugin Modal Body</ModalBody>
-          <ModalFooter>
-            <button
-              type="button"
-              className="btn btn-outline-primary"
-              data-dismiss="modal"
-              onClick={this.handleCloseModal}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={this.handleCloseModal}
-              ref={this.confirmButton}
-            >
-              Confirm
-            </button>
-          </ModalFooter>
-        </Modal>
+          title={title}
+          model={model}
+          settings={settings}
+          IrisGrid={IrisGrid}
+          onClose={this.handleCloseModal}
+        />
       </div>
     );
+  }
+}
+
+const TableModal = (props) => {
+  const { isOpen, title, model, settings, IrisGrid, onClose } = props;
+  const closeButton = useRef(null);
+  return (
+    <Modal
+      isOpen={isOpen}
+      className="theme-bg-dark"
+      onOpened={() => {
+        closeButton.current.focus();
+      }}
+    >
+      <ModalHeader>{title}</ModalHeader>
+      <ModalBody>
+        {model &&
+          React.createElement(IrisGrid, {
+            model,
+            settings,
+          })}
+      </ModalBody>
+      <ModalFooter>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          data-dismiss="modal"
+          onClick={onClose}
+          ref={closeButton}
+        >
+          Close
+        </button>
+      </ModalFooter>
+    </Modal>
+  );
+};
+
+class ProxyHandler {
+  get(target, property, receiver) {
+    if (property === "isRollupAvailable") {
+      return false;
+    }
+    const result = Reflect.get(target, property, receiver);
+    if (typeof result === "function") {
+      return result.bind(target);
+    }
+    return result;
   }
 }
 
