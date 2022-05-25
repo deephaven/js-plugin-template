@@ -1,18 +1,25 @@
 {
   "main": "dist/main.js",
   "devDependencies": {
-    "@babel/core": "^7.12.3",
-    "@babel/preset-env": "^7.11.0",
-    "@babel/preset-react": "^7.10.4",
-    "babel-loader": "^8.1.0",
-    "react": "^17.x",
-    "webpack": "^5.51.1",
-    "webpack-cli": "^3.3.12"
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "babel-loader": "^8.2.2",
+    "react": "^16.13.1",
+    "webpack": "^5.72.1",
+    "webpack-cli": "^3.3.12",
+    "css-loader": "^6.7.1"
   },
   "scripts": {
     "build": "webpack"
   },
   "peerDependencies": {
-    "react": "^17.x"
+    "react": "^16.13"
+  },
+  "dependencies": {
+    "@deephaven/components": "^0.6.3",
+    "@deephaven/iris-grid": "^0.6.4",
+    "@deephaven/log": "^0.6.2",
+    "react-dom": "^16.9.8"
   }
 }
