@@ -31,7 +31,7 @@ class ExampleLoginPlugin extends Component {
         // canCreateCodeStudio: true,
         /** Can create/use query monitor */
         // canCreateQueryMonitor: true,
-        /** Can copy table data use keyboard shortcuts or context menu */
+        /** Can copy table data using keyboard shortcuts or context menu */
         // canCopy: true,
         /** Can download/export table data as CSV */
         // canDownloadCsv: true,
